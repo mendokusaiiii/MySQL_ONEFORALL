@@ -2,13 +2,13 @@ DROP DATABASE IF EXISTS SpotifyClone;
 
   CREATE DATABASE IF NOT EXISTS SpotifyClone;
 
-  CREATE TABLE SpotifyClone.plano(
+  CREATE TABLE SpotifyClone.planos(
     plano_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     tipo_plano VARCHAR(55) NOT NULL,
     valor DECIMAL(3,2)
   ) ENGINE=INNODB ;
   
-  INSERT INTO SpotifyClone.plano (plano_id, tipo_plano, valor) 
+  INSERT INTO SpotifyClone.planos (plano_id, tipo_plano, valor) 
     VALUES 
       (1, 'gratuito', 0.00),
       (2, 'familiar', 7.99),
@@ -38,12 +38,12 @@ DROP DATABASE IF EXISTS SpotifyClone;
     ('Jorge Amado','58', '4','2017-02-17');
   
 
-  CREATE TABLE SpotifyClone.artista(
+  CREATE TABLE SpotifyClone.artistas(
     artista_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome_artista VARCHAR(55)
   ) ENGINE=INNODB;
 
-  INSERT INTO SpotifyClone.artista(nome_artista) 
+  INSERT INTO SpotifyClone.artistas(nome_artista) 
     VALUES
       ('Beyoncé'),
       ('Queen'),
@@ -102,13 +102,13 @@ DROP DATABASE IF EXISTS SpotifyClone;
     CREATE TABLE SpotifyClone.musicas(
       musica_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       duracao_musica INT NOT NULL,
-      musica_nome VARCHAR(255) NOT NULL,
+      musicas_nome VARCHAR(255) NOT NULL,
       album_id INT,
       FOREIGN KEY (album_id)
         REFERENCES album (album_id)
   ) ENGINE=INNODB;
 
-  INSERT INTO SpotifyClone.musicas (musica_nome, duracao_musica, album_id) VALUES 
+  INSERT INTO SpotifyClone.musicas (musicas_nome, duracao_musica, album_id) VALUES 
     ('BREAK MY SOUL', '279', '1'),
     ('VIRGO’S GROOVE', '369', '1'),
     ('ALIEN SUPERSTAR', '116', '1'),
@@ -120,7 +120,7 @@ DROP DATABASE IF EXISTS SpotifyClone;
     ('The Bard’s Song', '244', '7'),
     ('Feeling Good', '100', '8');
 
-    CREATE TABLE SpotifyClone.reproducoe(
+    CREATE TABLE SpotifyClone.reproducoes(
       usuario_id INT NOT NULL,
       musica_id INT NOT NULL,
       ultima_reproducao DATETIME,
@@ -132,7 +132,7 @@ DROP DATABASE IF EXISTS SpotifyClone;
   ) ENGINE=INNODB;
 
 
-    INSERT INTO SpotifyClone.reproducoe (usuario_id, musica_id, ultima_reproducao)
+    INSERT INTO SpotifyClone.reproducoes (usuario_id, musica_id, ultima_reproducao)
     VALUES
         ('1', '8', '2022-02-28 10:45:55'),
         ('1', '2', '2020-05-02 05:30:35'),
