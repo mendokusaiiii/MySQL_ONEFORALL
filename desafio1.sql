@@ -1,19 +1,31 @@
 DROP DATABASE IF EXISTS SpotifyClone;
 
   CREATE DATABASE IF NOT EXISTS SpotifyClone;
-  USE SpotifyClone;
+
+  CREATE TABLE SpotifyClone.plano(
+    plano_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tipo_plano VARCHAR(55) NOT NULL,
+    valor DECIMAL(3,2)
+  ) ENGINE=INNODB ;
+  
+  INSERT INTO SpotifyClone.plano (plano_id, tipo_plano, valor) 
+    VALUES 
+      (1, 'gratuito', 0.00),
+      (2, 'familiar', 7.99),
+      (3, 'universitario', 5.99),
+      (4, 'pessoal', 6.99);
 
   CREATE TABLE SpotifyClone.usuario(
-      usuario_id INT PRIMARY KEY AUTO_INCREMENT,
+      usuario_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       usuario_nome VARCHAR(255) NOT NULL,
-      plano_id INT,
+      plano_id INT NOT NULL,
       idade INT NOT NULL,
-      data_assinatura DATE NOT NULL,
+      data_assinatura DATETIME NOT NULL,
       FOREIGN KEY (plano_id)
-        REFERENCES planos (plano_id)
+        REFERENCES plano (plano_id)
   ) ENGINE=INNODB;
 
-  INSERT INTO usuario (usuario_nome, idade, plano_id, data_assinatura) VALUES 
+  INSERT INTO SpotifyClone.usuario (usuario_nome, idade, plano_id, data_assinatura) VALUES 
     ('Barbara Liskov','82', '1','2019-10-20'),
     ('Robert Cecil Martin','58', '1','2017-01-06'),
     ('Ada Lovelace','37', '2','2017-12-30'),
@@ -25,32 +37,23 @@ DROP DATABASE IF EXISTS SpotifyClone;
     ('Judith Butler','45', '4','2020-05-13'),
     ('Jorge Amado','58', '4','2017-02-17');
   
-  CREATE TABLE SpotifyClone.plano(
-    plano_id INT PRIMARY KEY AUTO_INCREMENT,
-    tipo_plano VARCHAR(55) NOT NULL,
-    valor DECIMAL(3,2)
-  ) ENGINE=INNODB ;
-  
-  INSERT INTO plano (plano_id, tipo_plano, valor) VALUES (1, 'gratuito', 0.00),
-    (2, 'familiar', 7.99),
-    (3, 'universitario', 5.99),
-    (4, 'pessoal', 6.99);
 
   CREATE TABLE SpotifyClone.artista(
-    artista_id INT PRIMARY KEY AUTO_INCREMENT,
+    artista_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome_artista VARCHAR(55)
   ) ENGINE=INNODB;
 
-  INSERT INTO artista(nome_artista) VALUES
-    ('Beyoncé'),
-    ('Queen'),
-    ('Elis Regina'),
-    ('Baco Exu do Blues'),
-    ('Blind Guardian'),
-    ('Nina Simone');
+  INSERT INTO SpotifyClone.artista(nome_artista) 
+    VALUES
+      ('Beyoncé'),
+      ('Queen'),
+      ('Elis Regina'),
+      ('Baco Exu do Blues'),
+      ('Blind Guardian'),
+      ('Nina Simone');
 
   CREATE TABLE SpotifyClone.album(
-    album_id INT PRIMARY KEY AUTO_INCREMENT,
+    album_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome_album VARCHAR(55),
     ano_lancamento INT NOT NULL,
     artista_id INT,
@@ -58,45 +61,46 @@ DROP DATABASE IF EXISTS SpotifyClone;
       REFERENCES artista (artista_id)
   ) ENGINE=INNODB;
 
-  INSERT INTO album(nome_album, ano_lancamento, artista_id) VALUES
-    ('Renaissance', '2022', '1'),
-    ('Jazz', '1978', '2'),
-    ('Hot Space', '1982', '2'),
-    ('Falso Brilhante', '1998', '3'),
-    ('Vento de Maio', '2001', '3'),
-    ('QVVJFA?', '2003', '4'),
-    ('Somewhere Far Beyond', '2007', '5'),
-    ('I Put A Spell On You', '2012', '6')
+  INSERT INTO SpotifyClone.album(nome_album, ano_lancamento, artista_id) 
+    VALUES
+      ('Renaissance', '2022', '1'),
+      ('Jazz', '1978', '2'),
+      ('Hot Space', '1982', '2'),
+      ('Falso Brilhante', '1998', '3'),
+      ('Vento de Maio', '2001', '3'),
+      ('QVVJFA?', '2003', '4'),
+      ('Somewhere Far Beyond', '2007', '5'),
+      ('I Put A Spell On You', '2012', '6');
 
     CREATE TABLE SpotifyClone.seguindo(
       usuario_id INT,
       artista_id INT,
-      PRIMARY KEY (artista_id, usuario_id)
-        FOREIGN KEY (artista_id)
-          REFERENCES artista (artista_id)
-        FOREIGN KEY (usuario_id) 
-          REFERENCES usuario (usuario_id)
+      PRIMARY KEY (artista_id, usuario_id),
+      FOREIGN KEY (artista_id)
+        REFERENCES artista (artista_id),
+      FOREIGN KEY (usuario_id) 
+        REFERENCES usuario (usuario_id)
   ) ENGINE=INNODB;
 
-  INSERT INTO seguindo (usuario_id, artista_id)
-VALUES
-    ('1', '1'),
-    ('1', '2'),
-    ('1', '3'),
-    ('2', '1'),
-    ('2', '3'),
-    ('3', '2'),
-    ('4', '4'),
-    ('5', '5'),
-    ('5', '6'),
-    ('6', '1'),
-    ('6', '6'),
-    ('7', '6'),
-    ('9', '3'),
-    ('10', '2');
+  INSERT INTO SpotifyClone.seguindo (usuario_id, artista_id)
+    VALUES
+      ('1', '1'),
+      ('1', '2'),
+      ('1', '3'),
+      ('2', '1'),
+      ('2', '3'),
+      ('3', '2'),
+      ('4', '4'),
+      ('5', '5'),
+      ('5', '6'),
+      ('6', '1'),
+      ('6', '6'),
+      ('7', '6'),
+      ('9', '3'),
+      ('10', '2');
 
     CREATE TABLE SpotifyClone.musicas(
-      musica_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      musica_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       duracao_musica INT NOT NULL,
       musica_nome VARCHAR(255) NOT NULL,
       album_id INT,
@@ -104,7 +108,7 @@ VALUES
         REFERENCES album (album_id)
   ) ENGINE=INNODB;
 
-  INSERT INTO musicas (musica_nome, duracao_musica, album_id) VALUES 
+  INSERT INTO SpotifyClone.musicas (musica_nome, duracao_musica, album_id) VALUES 
     ('BREAK MY SOUL', '279', '1'),
     ('VIRGO’S GROOVE', '369', '1'),
     ('ALIEN SUPERSTAR', '116', '1'),
@@ -117,18 +121,18 @@ VALUES
     ('Feeling Good', '100', '8');
 
     CREATE TABLE SpotifyClone.reproducoe(
-      usuario_id INT,
-      musica_id INT,
+      usuario_id INT NOT NULL,
+      musica_id INT NOT NULL,
       ultima_reproducao DATETIME,
       PRIMARY KEY (usuario_id, musica_id),
       FOREIGN KEY (musica_id)
-        REFERENCES musicas (musica_id)
+        REFERENCES musicas (musica_id),
       FOREIGN KEY (usuario_id)
         REFERENCES usuario (usuario_id)
   ) ENGINE=INNODB;
 
 
-    INSERT INTO reproducoe (usuario_id, musica_id, ultima_reproducao)
+    INSERT INTO SpotifyClone.reproducoe (usuario_id, musica_id, ultima_reproducao)
     VALUES
         ('1', '8', '2022-02-28 10:45:55'),
         ('1', '2', '2020-05-02 05:30:35'),

@@ -1,9 +1,8 @@
-SELECT
-    COUNT(DISTINCT can.musica_id) AS cancoes,
-    COUNT(DISTINCT a.artista_id) AS artistas,
-    COUNT(DISTINCT al.album_id) AS albuns
-FROM SpotifyClone.musicas AS can
-INNER JOIN SpotifyClone.artista AS a
-ON can.artista_id = a.artista_id
-INNER JOIN SpotifyClone.album AS al
-ON can.album_id = al.album_id;
+SELECT 
+    COUNT(DISTINCT mus.musica_id) AS cancoes,
+    COUNT(DISTINCT mus.album_id) AS albuns,
+    COUNT(DISTINCT a.artista_id) AS artistas
+
+FROM SpotifyClone.musicas AS mus 
+INNER JOIN album AS alb ON  alb.album_id = mus.album_id
+INNER JOIN artista AS a ON alb.artista_id = a.artista_id;
